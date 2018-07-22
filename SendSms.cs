@@ -12,14 +12,16 @@ namespace PunchSmsConsole
 {
     class SendSMS
     {
+        public static bool processComplete = true;
         private static MySqlConnection conn;
         private static String date, logDate, s_id, dir = null;
         private static ArrayList studentDirectionList = new ArrayList();
-        private static ArrayList studentInfoList = new ArrayList();
+        public static ArrayList studentInfoList = new ArrayList();
         private static String zero = "00000", zeroSix = "000000";
         private static int zeroLength = 5, zeroSixLength = 6;
         public SendSMS()
         {
+            processComplete = true;
             getTodaysDate();
             databaseConnection();
             getStudentIdAndDirectionFromLogDatabase();
@@ -38,6 +40,7 @@ namespace PunchSmsConsole
         {
             foreach (string obj2 in studentInfoList)
             {
+                processComplete = false;
                 String sep = "^";
                 String[] separateText = obj2.Split(sep.ToCharArray());
                 String stud_id = separateText[0].Trim();
@@ -59,6 +62,7 @@ namespace PunchSmsConsole
                 }
                 updateStudentReportInLogDatabase(p_d_t);
             }
+            processComplete = true;
         }
 
         private void updateStudentReportInLogDatabase(string p_d_t)
@@ -72,7 +76,7 @@ namespace PunchSmsConsole
         {
             HttpWebRequest myRequest = (HttpWebRequest)WebRequest.Create(
                     "http://tra.bulksmshyderabad.co.in/websms/"
-                    + "sendsms.aspx?userid=USERNAME&password=PASSWORD"
+                    + "sendsms.aspx?userid=Uniquetutorials&password=tu1234566&"
                     + "sender=UNQTUT&mobileno=" + Uri.EscapeUriString(p_no)
                     + "&msg=" + Uri.EscapeUriString(s_name + " has " + in_out
                             + " The Unique Tutorials on " + p_d_t));
@@ -127,7 +131,7 @@ namespace PunchSmsConsole
 
         private static void databaseConnection()
         {
-            string connectionString = "Server=localhost;port=3306;username=rootuser;password=rootuser;database=utdb;";
+            string connectionString = "Server=localhost;port=3306;username=rootuser;password=rootuser; database =utdb;";
             conn = new MySqlConnection(connectionString);
             try
             {

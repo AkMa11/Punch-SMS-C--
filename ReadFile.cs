@@ -11,7 +11,7 @@ namespace PunchSmsConsole
 {
     public class ReadFile
     {
-        private static String date, logDate, filePath = @"c:\logs\";
+        private static String date, logDate, filePath = @"e:\logs\";
         private static MySqlConnection conn;
         private static String selectDbAndTable = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'utdb' AND table_name = 'log_07_2018'; ";
         private static String createTableQuery = "CREATE TABLE log_07_2018 (student_id VARCHAR(10), punch_date_time VARCHAR(25), direction VARCHAR(1), report VARCHAR(1))";
@@ -48,8 +48,6 @@ namespace PunchSmsConsole
             createMonthLogTable();
 
             getDateAndTimeFromDatabaseAndPutThemInList();
-
-
         }
 
         private void getDateAndTimeFromDatabaseAndPutThemInList()
@@ -80,7 +78,7 @@ namespace PunchSmsConsole
 
         private void databaseConnection()
         {
-            string connectionString = "Server=localhost;port=3306;username=rootuser;password=rootuser;database=utdb;";
+            string connectionString = "Server=localhost;port=3306;username=rootuser;password=rootuser; database =utdb;";
             conn = new MySqlConnection(connectionString);
             try
             {
